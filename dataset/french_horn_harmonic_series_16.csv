@@ -1,0 +1,17 @@
+partial_order,written_open_f_horn,written_open_bb_horn,frequency_ratio,equal_temperament_cents_deviation,intonation_tendency,acoustic_notes
+1,C2,F2,1,0,in-tune,"Fundamental (Pedal note). Deep and resonant, requires relaxed embouchure."
+2,C3,F3,2,0,in-tune,Octave above fundamental. Exact pure pitch.
+3,G3,C4,3,2,in-tune,"Pure perfect fifth. Slightly sharp (+2 cents), virtually imperceptible."
+4,C4,F4,4,0,in-tune,Middle C octave. Stable and centered reference tone.
+5,E4,A4,5,-14,flat,"Pure major third. Noticeably flat (-14 cents), lip up or use alternate fingering."
+6,G4,C5,6,2,in-tune,Compound fifth. Very bright and stable harmonic.
+7,B♭4,E♭5,7,-31,very-flat,"Natural 7th. Very flat (-31 cents). Usually avoided in equal temperament, used for blues."
+8,C5,F5,8,0,in-tune,High C octave. Perfect pure harmonic node.
+9,D5,G5,9,4,in-tune,"Major 9th. Slightly sharp (+4 cents), very easy to center."
+10,E5,A5,10,-14,flat,"High major third. Flat (-14 cents), often played on Bb horn to avoid cracks."
+11,F#5,B5,11,-49,unusable,"Between F and F#. Extremely flat (-49 cents), requires heavy hand stopping or valve alt."
+12,G5,C6,12,2,in-tune,High G harmonic. Piercing and heroic orchestral brilliance.
+13,A♭5,D♭6,13,41,unusable,Extremely sharp (+41 cents). Almost a quarter tone high.
+14,B♭5,E♭6,14,-31,very-flat,Very flat high 7th (-31 cents).
+15,B5,E6,15,-12,flat,Leading tone harmonic. Slightly flat (-12 cents).
+16,C6,F6,16,0,in-tune,Top C altissimo. Demands supreme lip speed and core support.

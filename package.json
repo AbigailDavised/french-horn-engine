@@ -1,0 +1,51 @@
+{
+  "name": "french-horn-engine",
+  "version": "1.0.0",
+  "description": "Zero-dependency F/Bb Double French Horn acoustic & fingering engine: chromatic valve fingerings, stopped-horn compensation, 1-16 overtone series cent deviations, classical crook transposition, and temperature tuning calibration.",
+  "type": "module",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/esm/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json && node scripts/finalize-cjs.mjs",
+    "test": "node --test test/engine.test.mjs"
+  },
+  "homepage": "https://hornlib.com/fingerings",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbigailDavised/french-horn-engine.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AbigailDavised/french-horn-engine/issues"
+  },
+  "keywords": [
+    "french-horn",
+    "fingering-chart",
+    "music-theory",
+    "acoustics",
+    "harmonic-series",
+    "orchestral-transposition",
+    "brass-pedagogy"
+  ],
+  "author": "Abigail Davis <abigaild@agentmail.to>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  }
+}

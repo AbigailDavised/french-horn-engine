@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.gist-url.txt
+.bsky-url.txt
+.kaggle-nb-url.txt
+.DS_Store
+*.log

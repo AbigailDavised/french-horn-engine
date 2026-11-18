@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F/Bb Double French Horn Fingering &amp; Transposition Tool — french-horn-engine</title>
+  <style>
+    :root { --bg:#fdfbf7; --card:#ffffff; --text:#1c1917; --muted:#57534e; --accent:#92400e; --border:#e7e5e4; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--text); line-height:1.5; }
+    .wrap { max-width:980px; margin:0 auto; padding:24px 16px 48px; }
+    header { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:12px; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:14px; }
+    h1 { font-size:1.45rem; margin:0; }
+    .sub { color:var(--muted); font-size:0.9rem; margin:4px 0 0; }
+    .links { display:flex; gap:12px; flex-wrap:wrap; font-size:0.85rem; }
+    .links a { color:var(--accent); text-decoration:none; font-weight:600; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; }
+    .card h2 { font-size:1.05rem; margin:0 0 12px; }
+    label { display:block; font-size:0.82rem; font-weight:600; color:var(--muted); margin:10px 0 4px; }
+    select, input { width:100%; padding:8px 10px; border:1px solid #d6d3d1; border-radius:6px; font-size:0.95rem; background:#fff; }
+    .kpis { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+    .kpi { background:#f5f5f4; border-radius:8px; padding:10px; }
+    .kpi .lbl { font-size:0.75rem; color:var(--muted); }
+    .kpi .val { font-size:1.08rem; font-weight:700; margin-top:2px; font-variant-numeric:tabular-nums; }
+    table { width:100%; border-collapse:collapse; font-size:0.82rem; margin-top:8px; }
+    th, td { border-bottom:1px solid var(--border); padding:6px 8px; text-align:left; }
+    footer { margin-top:24px; padding-top:14px; border-top:1px solid var(--border); font-size:0.8rem; color:var(--muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+    footer a { color:var(--accent); text-decoration:none; font-weight:600; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>F/Bb Double French Horn Fingering &amp; Crook Transposition</h1>
+        <p class="sub">Client-side chromatic fingering lookup, stopped-horn compensation &amp; orchestral crook transposer.</p>
+      </div>
+      <div class="links">
+        <a href="https://hornlib.com/fingerings" target="_blank" rel="noopener noreferrer">3D Interactive Chart</a>
+        <a href="https://hornlib.com/tools/harmonics" target="_blank" rel="noopener noreferrer">Harmonics Lab</a>
+        <a href="https://hornlib.com/repertoire-excerpts" target="_blank" rel="noopener noreferrer">Audition Excerpts</a>
+        <a href="https://www.npmjs.com/package/french-horn-engine" target="_blank" rel="noopener noreferrer">npm Package</a>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <h2>1. F/Bb Double Horn Chromatic Fingering</h2>
+        <label for="noteSel">Written Pitch (Horn in F)</label>
+        <select id="noteSel"></select>
+        <div class="kpis">
+          <div class="kpi"><div class="lbl">Concert Pitch &amp; Hz</div><div class="val" id="nPitch">-</div></div>
+          <div class="kpi"><div class="lbl">Preferred Orchestral Side</div><div class="val" id="nPref">-</div></div>
+          <div class="kpi"><div class="lbl">F-Side / Bb-Trigger</div><div class="val" id="nValves">-</div></div>
+          <div class="kpi"><div class="lbl">Stopped Horn (+) F-Side</div><div class="val" id="nStop">-</div></div>
+        </div>
+        <p id="nDesc" style="font-size:0.83rem; color:var(--muted); margin:10px 0 0;"></p>
+      </div>
+
+      <div class="card">
+        <h2>2. Historical Orchestral Crook Transposer</h2>
+        <label for="crookSel">Original Score Crook</label>
+        <select id="crookSel"></select>
+        <label for="srcNote">Written Note in Original Score</label>
+        <select id="srcNote">
+          <option>C4</option><option>D4</option><option>E♭4</option><option>E4</option><option>F4</option><option selected>G4</option><option>A4</option><option>B♭4</option><option>C5</option><option>D5</option><option>E5</option>
+        </select>
+        <div class="kpis">
+          <div class="kpi"><div class="lbl">Read on Modern Horn in F</div><div class="val" id="tTarget">-</div></div>
+          <div class="kpi"><div class="lbl">Semitone Shift</div><div class="val" id="tShift">-</div></div>
+        </div>
+        <p id="tRule" style="font-size:0.83rem; color:var(--muted); margin:10px 0 0;"></p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px; overflow-x:auto;">
+      <h2>Natural Harmonic Overtone Series (Partials 1–16 &amp; Equal-Temperament Cents)</h2>
+      <table>
+        <thead><tr><th>Partial</th><th>Open F Horn</th><th>Open Bb Horn</th><th>Cents vs. 12-TET</th><th>Tendency &amp; Pedagogy Note</th></tr></thead>
+        <tbody id="harmBody"></tbody>
+      </table>
+    </div>
+
+    <footer>
+      <span>Open-source acoustics engine by <strong>HornLib.com</strong> (MIT License).</span>
+      <span>Need real-time microphone tuner, drone generator, or Strauss/Mahler excerpts? <a href="https://hornlib.com/fingerings" target="_blank" rel="noopener noreferrer">Open HornLib Studio →</a></span>
+    </footer>
+  </div>
+
+  <script>
+    const NOTES = [{"id":"f-sharp-2","w":"F#2","c":"B1","hz":61.74,"midi":35,"reg":"low","fv":"123","bbv":"T123","pref":"F","stop":"13","desc":"Low F-sharp. Requires loose, open jaw and warm air column."},{"id":"g2","w":"G2","c":"C2","hz":65.41,"midi":36,"reg":"low","fv":"13","bbv":"T13","pref":"F","stop":"23","desc":"Low G. Deep orchestral pedal foundation note."},{"id":"a-flat-2","w":"A♭2","c":"D♭2","hz":69.3,"midi":37,"reg":"low","fv":"23","bbv":"T23","pref":"F","stop":"12","desc":"Low A-flat. Rich and dark F horn coloration."},{"id":"a2","w":"A2","c":"D2","hz":73.42,"midi":38,"reg":"low","fv":"12","bbv":"T12","pref":"F","stop":"1","desc":"Low A. Resonant and centered on F horn."},{"id":"b-flat-2","w":"B♭2","c":"E♭2","hz":77.78,"midi":39,"reg":"low","fv":"1","bbv":"T1","pref":"F","stop":"2","desc":"Low B-flat. Standard 1st valve fingering."},{"id":"b2","w":"B2","c":"E2","hz":82.41,"midi":40,"reg":"low","fv":"2","bbv":"T2","pref":"F","stop":"0","desc":"Low B natural. 2nd valve alone."},{"id":"c3","w":"C3","c":"F2","hz":87.31,"midi":41,"reg":"low","fv":"0","bbv":"T0","pref":"F","stop":"2","desc":"C3 Open note (2nd harmonic on F horn). Solid low landmark."},{"id":"c-sharp-3","w":"C#3","c":"F#2","hz":92.5,"midi":42,"reg":"mid","fv":"123","bbv":"T123","pref":"F","stop":"13","desc":"Low C-sharp. All 3 valves down."},{"id":"d3","w":"D3","c":"G2","hz":98,"midi":43,"reg":"mid","fv":"13","bbv":"T13","pref":"F","stop":"23","desc":"D3. Valving 1 & 3 on F horn."},{"id":"e-flat-3","w":"E♭3","c":"A♭2","hz":103.83,"midi":44,"reg":"mid","fv":"23","bbv":"T23","pref":"F","stop":"12","desc":"E-flat 3. 2nd & 3rd valves down."},{"id":"e3","w":"E3","c":"A2","hz":110,"midi":45,"reg":"mid","fv":"12","bbv":"T12","pref":"F","stop":"1","desc":"E3. 1st & 2nd valves on F horn."},{"id":"f3","w":"F3","c":"B♭2","hz":116.54,"midi":46,"reg":"mid","fv":"1","bbv":"T1","pref":"F","stop":"2","desc":"F3. 1st valve."},{"id":"f-sharp-3","w":"F#3","c":"B2","hz":123.47,"midi":47,"reg":"mid","fv":"2","bbv":"T2","pref":"F","stop":"0","desc":"F-sharp 3. 2nd valve."},{"id":"g3","w":"G3","c":"C3","hz":130.81,"midi":48,"reg":"mid","fv":"0","bbv":"T0","pref":"F","stop":"2","desc":"G3 open note on F horn (3rd harmonic). Very centered."},{"id":"a-flat-3","w":"A♭3","c":"D♭3","hz":138.59,"midi":49,"reg":"mid","fv":"23","bbv":"T23","pref":"F","stop":"12","desc":"A-flat 3. 2+3 on F horn."},{"id":"a3","w":"A3","c":"D3","hz":146.83,"midi":50,"reg":"mid","fv":"12","bbv":"T12","pref":"F","stop":"1","desc":"A3. 1+2 on F horn, or T12 on Bb horn."},{"id":"b-flat-3","w":"B♭3","c":"E♭3","hz":155.56,"midi":51,"reg":"mid","fv":"1","bbv":"T1","pref":"F","stop":"2","desc":"B-flat 3. 1st valve on F horn."},{"id":"b3","w":"B3","c":"E3","hz":164.81,"midi":52,"reg":"mid","fv":"2","bbv":"T2","pref":"F","stop":"0","desc":"B natural 3. 2nd valve."},{"id":"c4","w":"C4","c":"F3","hz":174.61,"midi":53,"reg":"mid","fv":"0","bbv":"T0","pref":"F","stop":"2","desc":"Middle C (Written). 4th harmonic on F horn, open note. Foundational tone."},{"id":"c-sharp-4","w":"C#4","c":"F#3","hz":185,"midi":54,"reg":"mid","fv":"12","bbv":"T23","pref":"F","stop":"1","desc":"C#4. F horn: 12 (or 23). Bb horn: T23."},{"id":"d4","w":"D4","c":"G3","hz":196,"midi":55,"reg":"mid","fv":"1","bbv":"T12","pref":"F","stop":"2","desc":"D4. F horn: 1. Bb horn: T12."},{"id":"e-flat-4","w":"E♭4","c":"A♭3","hz":207.65,"midi":56,"reg":"mid","fv":"2","bbv":"T1","pref":"F","stop":"0","desc":"E-flat 4. F horn: 2. Bb horn: T1."},{"id":"e4","w":"E4","c":"A3","hz":220,"midi":57,"reg":"mid","fv":"0","bbv":"T2","pref":"F","stop":"2","desc":"E4. 5th harmonic open on F horn (slightly flat, lip up), or T2 on Bb horn."},{"id":"f4","w":"F4","c":"B♭3","hz":233.08,"midi":58,"reg":"mid","fv":"1","bbv":"T0","pref":"F","stop":"2","desc":"F4. F horn: 1. Bb horn: T0 (open on Bb). Transition note to Bb horn."},{"id":"f-sharp-4","w":"F#4","c":"B3","hz":246.94,"midi":59,"reg":"mid","fv":"2","bbv":"T2","pref":"F","stop":"0","desc":"F#4. F horn: 2. Bb horn: T2."},{"id":"g4","w":"G4","c":"C4","hz":261.63,"midi":60,"reg":"mid","fv":"0","bbv":"T0","pref":"F","stop":"2","desc":"G4. 6th harmonic on F horn, open. Highly resonant center of the horn."},{"id":"a-flat-4","w":"A♭4","c":"D♭4","hz":277.18,"midi":61,"reg":"high","fv":"23","bbv":"T23","pref":"Bb","stop":"12","desc":"A-flat 4. Recommended on Bb horn (T23) for rock-solid stability."},{"id":"a4","w":"A4","c":"D4","hz":293.66,"midi":62,"reg":"high","fv":"12","bbv":"T12","pref":"Bb","stop":"1","desc":"A4. Bb horn T12 preferred. F horn 12 also possible."},{"id":"b-flat-4","w":"B♭4","c":"E♭4","hz":311.13,"midi":63,"reg":"high","fv":"1","bbv":"T1","pref":"Bb","stop":"2","desc":"B-flat 4. Bb horn T1 gives brilliant tone."},{"id":"b4","w":"B4","c":"E4","hz":329.63,"midi":64,"reg":"high","fv":"2","bbv":"T2","pref":"Bb","stop":"0","desc":"B natural 4. Bb horn T2 gives superior security."},{"id":"c5","w":"C5","c":"F4","hz":349.23,"midi":65,"reg":"high","fv":"0","bbv":"T0","pref":"Bb","stop":"2","desc":"High C (Written). Bb horn T0 is the standard orchestral fingering."},{"id":"c-sharp-5","w":"C#5","c":"F#4","hz":369.99,"midi":66,"reg":"high","fv":"12","bbv":"T12","pref":"Bb","stop":"1","desc":"C#5. Bb horn T12 (or T23)."},{"id":"d5","w":"D5","c":"G4","hz":392,"midi":67,"reg":"high","fv":"1","bbv":"T1","pref":"Bb","stop":"2","desc":"D5. Bb horn T1 is bright and focused."},{"id":"e-flat-5","w":"E♭5","c":"A♭4","hz":415.3,"midi":68,"reg":"high","fv":"2","bbv":"T2","pref":"Bb","stop":"0","desc":"E-flat 5. Bb horn T2 is solid."},{"id":"e5","w":"E5","c":"A4","hz":440,"midi":69,"reg":"high","fv":"0","bbv":"T0","pref":"Bb","stop":"2","desc":"E5 (Concert A440). Bb horn T0 or T12. Pure solo brilliance."},{"id":"f5","w":"F5","c":"B♭4","hz":466.16,"midi":70,"reg":"altissimo","fv":"1","bbv":"T1","pref":"Bb","stop":"2","desc":"F5 Altissimo. Bb horn T1. Keep throat open."},{"id":"g5","w":"G5","c":"C5","hz":523.25,"midi":72,"reg":"altissimo","fv":"0","bbv":"T0","pref":"Bb","stop":"2","desc":"Top G (Strauss Heldenleben). Master-tier altissimo."},{"id":"c6","w":"C6","c":"F5","hz":698.46,"midi":77,"reg":"altissimo","fv":"0","bbv":"T0","pref":"Bb","stop":"2","desc":"Extreme High C (Written C6). Pinnacle of horn altissimo technique."}];
+    const CROOKS = [{"id":"c-basso","name":"Horn in C (basso)","off":-5,"rule":"Transpose DOWN a Perfect 4th (or read in Bass Clef + 8ve)","clef":"Read in bass clef one octave up; add one sharp / subtract one flat.","rep":"Haydn Early Symphonies, Mozart Symphonies 36 & 41, Beethoven Symphony No. 1"},{"id":"d","name":"Horn in D","off":-3,"rule":"Transpose DOWN a Minor 3rd","clef":"Read in tenor clef, add three sharps (or subtract three flats).","rep":"Beethoven Symphony No. 2, Haydn Concerto in D, Mozart Horn Concerto No. 4 Romance"},{"id":"eb","name":"Horn in E♭","off":-2,"rule":"Transpose DOWN a Major 2nd (One Whole Step)","clef":"Read in bass clef one octave higher, or read down one step; add two sharps / minus two flats.","rep":"Beethoven Symphony No. 3 (Eroica), Mozart Concertos 1–4, Beethoven Symphony No. 5"},{"id":"e","name":"Horn in E","off":-1,"rule":"Transpose DOWN a Minor 2nd (One Half Step)","clef":"Shift down one half-step; think one semitone lower throughout.","rep":"Beethoven Symphony No. 7, Brahms Horn Trio Op. 40, Weber Der Freischütz Overture"},{"id":"f","name":"Horn in F (Modern Standard)","off":0,"rule":"Modern standard — As written (No transposition)","clef":"Standard modern treble clef; play as written.","rep":"Tchaikovsky Symphony No. 5, Mahler Symphonies, Richard Strauss Tone Poems"},{"id":"g","name":"Horn in G","off":2,"rule":"Transpose UP a Major 2nd (One Whole Step)","clef":"Read in alto clef; add two sharps / subtract two flats.","rep":"Mozart Symphony No. 40, Rossini William Tell, Haydn Surprise Symphony"},{"id":"a","name":"Horn in A","off":4,"rule":"Transpose UP a Major 3rd","clef":"Read up a major third directly on treble clef; add four sharps.","rep":"Beethoven Symphony No. 7 Finale, Mozart Symphony No. 29, Mendelssohn Symphony No. 4"},{"id":"bb-alto","name":"Horn in B♭ (alto)","off":5,"rule":"Transpose UP a Perfect 4th","clef":"Read up a perfect 4th; play directly on B♭ tube harmonic nodes.","rep":"Mozart Symphony No. 25 in G minor, Haydn Symphony No. 39, Schumann Symphony No. 2"},{"id":"bb-basso","name":"Horn in B♭ (basso)","off":-7,"rule":"Transpose DOWN a Perfect 5th","clef":"Read down a perfect 5th; typical in low pedal register.","rep":"Brahms Symphony No. 2, Beethoven Symphony No. 4, Haydn Symphony No. 98"}];
+    const HARMS = [{"order":1,"writtenNameF":"C2","writtenNameBb":"F2","ratio":1,"centsDeviation":0,"intonationTendency":"in-tune","descriptionEn":"Fundamental (Pedal note). Deep and resonant, requires relaxed embouchure.","descriptionZh":"基音（踏板音）。深沉而松弛，需要极度放松的嘴唇与饱满气流。"},{"order":2,"writtenNameF":"C3","writtenNameBb":"F3","ratio":2,"centsDeviation":0,"intonationTendency":"in-tune","descriptionEn":"Octave above fundamental. Exact pure pitch.","descriptionZh":"第2泛音（纯八度）。物理纯律无偏差，极佳的低音锚点。"},{"order":3,"writtenNameF":"G3","writtenNameBb":"C4","ratio":3,"centsDeviation":2,"intonationTendency":"in-tune","descriptionEn":"Pure perfect fifth. Slightly sharp (+2 cents), virtually imperceptible.","descriptionZh":"第3泛音（纯五度）。微高 2 音分，声学上近乎完美。"},{"order":4,"writtenNameF":"C4","writtenNameBb":"F4","ratio":4,"centsDeviation":0,"intonationTendency":"in-tune","descriptionEn":"Middle C octave. Stable and centered reference tone.","descriptionZh":"第4泛音（中央C）。音准稳定，双排管中音区核心交界。"},{"order":5,"writtenNameF":"E4","writtenNameBb":"A4","ratio":5,"centsDeviation":-14,"intonationTendency":"flat","descriptionEn":"Pure major third. Noticeably flat (-14 cents), lip up or use alternate fingering.","descriptionZh":"第5泛音（纯大三度）。明显偏低 14 音分，需收紧嘴唇微提或换用备用指法。"},{"order":6,"writtenNameF":"G4","writtenNameBb":"C5","ratio":6,"centsDeviation":2,"intonationTendency":"in-tune","descriptionEn":"Compound fifth. Very bright and stable harmonic.","descriptionZh":"第6泛音（复五度）。清脆稳定，圆号高贵音色的典型代表。"},{"order":7,"writtenNameF":"B♭4","writtenNameBb":"E♭5","ratio":7,"centsDeviation":-31,"intonationTendency":"very-flat","descriptionEn":"Natural 7th. Very flat (-31 cents). Usually avoided in equal temperament, used for blues.","descriptionZh":"第7泛音（自然小七度）。极度偏低 31 音分，一般规避使用，除非特殊色彩或蓝调效果。"},{"order":8,"writtenNameF":"C5","writtenNameBb":"F5","ratio":8,"centsDeviation":0,"intonationTendency":"in-tune","descriptionEn":"High C octave. Perfect pure harmonic node.","descriptionZh":"第8泛音（高八度）。完全纯正，高音区基准点。"},{"order":9,"writtenNameF":"D5","writtenNameBb":"G5","ratio":9,"centsDeviation":4,"intonationTendency":"in-tune","descriptionEn":"Major 9th. Slightly sharp (+4 cents), very easy to center.","descriptionZh":"第9泛音（大二度）。微高 4 音分，非常容易聚拢音芯。"},{"order":10,"writtenNameF":"E5","writtenNameBb":"A5","ratio":10,"centsDeviation":-14,"intonationTendency":"flat","descriptionEn":"High major third. Flat (-14 cents), often played on Bb horn to avoid cracks.","descriptionZh":"第10泛音（高音大三度）。偏低 14 音分，常切 B♭ 管以防止破音。"},{"order":11,"writtenNameF":"F#5","writtenNameBb":"B5","ratio":11,"centsDeviation":-49,"intonationTendency":"unusable","descriptionEn":"Between F and F#. Extremely flat (-49 cents), requires heavy hand stopping or valve alt.","descriptionZh":"第11泛音（中音增四度/减五度）。极偏 49 音分（几乎处于半音中间），必须靠指法修正。"},{"order":12,"writtenNameF":"G5","writtenNameBb":"C6","ratio":12,"centsDeviation":2,"intonationTendency":"in-tune","descriptionEn":"High G harmonic. Piercing and heroic orchestral brilliance.","descriptionZh":"第12泛音（高音G）。英雄性交响号角的辉煌高音，穿透力极强。"},{"order":13,"writtenNameF":"A♭5","writtenNameBb":"D♭6","ratio":13,"centsDeviation":41,"intonationTendency":"unusable","descriptionEn":"Extremely sharp (+41 cents). Almost a quarter tone high.","descriptionZh":"第13泛音。极度偏高 41 音分，一般仅在自然圆号曲目中出现。"},{"order":14,"writtenNameF":"B♭5","writtenNameBb":"E♭6","ratio":14,"centsDeviation":-31,"intonationTendency":"very-flat","descriptionEn":"Very flat high 7th (-31 cents).","descriptionZh":"第14泛音。偏低 31 音分的高阶自然音。"},{"order":15,"writtenNameF":"B5","writtenNameBb":"E6","ratio":15,"centsDeviation":-12,"intonationTendency":"flat","descriptionEn":"Leading tone harmonic. Slightly flat (-12 cents).","descriptionZh":"第15泛音（导音）。微低 12 音分。"},{"order":16,"writtenNameF":"C6","writtenNameBb":"F6","ratio":16,"centsDeviation":0,"intonationTendency":"in-tune","descriptionEn":"Top C altissimo. Demands supreme lip speed and core support.","descriptionZh":"第16泛音（超高音C）。需要极高的唇肌张力与核心气流支撑。"}];
+    const SCALE = ['C','C#','D','E♭','E','F','F#','G','A♭','A','B♭','B'];
+
+    const nsel = document.getElementById('noteSel');
+    NOTES.forEach((n, i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = `${n.w} (Concert ${n.c} · ${n.hz} Hz · ${n.reg})`;
+      if (n.w === 'C5') opt.selected = true;
+      nsel.appendChild(opt);
+    });
+
+    const csel = document.getElementById('crookSel');
+    CROOKS.forEach((c, i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = c.name;
+      if (c.id === 'eb') opt.selected = true;
+      csel.appendChild(opt);
+    });
+
+    document.getElementById('harmBody').innerHTML = HARMS.map(h => `
+      <tr>
+        <td><strong>#${h.order}</strong></td>
+        <td>${h.writtenNameF}</td>
+        <td>${h.writtenNameBb}</td>
+        <td>${h.centsDeviation > 0 ? '+' + h.centsDeviation : h.centsDeviation}¢</td>
+        <td>${h.descriptionEn}</td>
+      </tr>
+    `).join('');
+
+    function update() {
+      const n = NOTES[Number(nsel.value) || 0];
+      document.getElementById('nPitch').textContent = `${n.c} (${n.hz} Hz)`;
+      document.getElementById('nPref').textContent = `${n.pref} Horn (${n.pref==='Bb'?n.bbv:n.fv})`;
+      document.getElementById('nValves').textContent = `F: ${n.fv}  |  Bb: ${n.bbv}`;
+      document.getElementById('nStop').textContent = `F-side: ${n.stop}`;
+      document.getElementById('nDesc').textContent = n.desc;
+
+      const cr = CROOKS[Number(csel.value) || 0];
+      const sn = document.getElementById('srcNote').value;
+      const m = sn.match(/^([A-G][♭#]?)([0-9])$/);
+      let idx = SCALE.indexOf(m[1]), oct = +m[2];
+      idx += cr.off;
+      while (idx < 0) { idx += 12; oct--; }
+      while (idx >= 12) { idx -= 12; oct++; }
+      document.getElementById('tTarget').textContent = SCALE[idx] + oct;
+      document.getElementById('tShift').textContent = (cr.off > 0 ? '+' : '') + cr.off + ' semitones';
+      document.getElementById('tRule').textContent = cr.rule + ' — Famous works: ' + cr.rep;
+    }
+
+    ['noteSel','crookSel','srcNote'].forEach(id => document.getElementById(id).addEventListener('input', update));
+    update();
+  </script>
+</body>
+</html>

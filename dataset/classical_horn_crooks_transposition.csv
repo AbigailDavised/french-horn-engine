@@ -1,0 +1,10 @@
+crook_id,crook_name,semitone_offset_to_f_horn,interval_rule,clef_reading_method,canonical_repertoire
+c-basso,Horn in C (basso),-5,Transpose DOWN a Perfect 4th (or read in Bass Clef + 8ve),Read in bass clef one octave up; add one sharp / subtract one flat.,Haydn Early Symphonies; Mozart Symphonies 36 & 41; Beethoven Symphony No. 1
+d,Horn in D,-3,Transpose DOWN a Minor 3rd,"Read in tenor clef, add three sharps (or subtract three flats).",Beethoven Symphony No. 2; Haydn Concerto in D; Mozart Horn Concerto No. 4 Romance
+eb,Horn in E♭,-2,Transpose DOWN a Major 2nd (One Whole Step),"Read in bass clef one octave higher, or read down one step; add two sharps / minus two flats.",Beethoven Symphony No. 3 (Eroica); Mozart Concertos 1–4; Beethoven Symphony No. 5
+e,Horn in E,-1,Transpose DOWN a Minor 2nd (One Half Step),Shift down one half-step; think one semitone lower throughout.,Beethoven Symphony No. 7; Brahms Horn Trio Op. 40; Weber Der Freischütz Overture
+f,Horn in F (Modern Standard),0,Modern standard — As written (No transposition),Standard modern treble clef; play as written.,Tchaikovsky Symphony No. 5; Mahler Symphonies; Richard Strauss Tone Poems
+g,Horn in G,2,Transpose UP a Major 2nd (One Whole Step),Read in alto clef; add two sharps / subtract two flats.,Mozart Symphony No. 40; Rossini William Tell; Haydn Surprise Symphony
+a,Horn in A,4,Transpose UP a Major 3rd,Read up a major third directly on treble clef; add four sharps.,Beethoven Symphony No. 7 Finale; Mozart Symphony No. 29; Mendelssohn Symphony No. 4
+bb-alto,Horn in B♭ (alto),5,Transpose UP a Perfect 4th,Read up a perfect 4th; play directly on B♭ tube harmonic nodes.,Mozart Symphony No. 25 in G minor; Haydn Symphony No. 39; Schumann Symphony No. 2
+bb-basso,Horn in B♭ (basso),-7,Transpose DOWN a Perfect 5th,Read down a perfect 5th; typical in low pedal register.,Brahms Symphony No. 2; Beethoven Symphony No. 4; Haydn Symphony No. 98
